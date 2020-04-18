@@ -12,6 +12,7 @@ public class AI : MonoBehaviour
 
     private GameObject target;
     private int pointer;
+    private Vector3 dir;
 
     // Start is called before the first frame update
     void Start()
@@ -34,9 +35,8 @@ public class AI : MonoBehaviour
             if (pointer > points.Count-1) pointer = 0;
 
             target = points[pointer];
-        }
-
-        var dir = -(transform.position - target.transform.position).normalized;
+            dir = (target.transform.position - transform.position).normalized;
+        }    
 
         transform.position += dir * moveSpeed * Time.deltaTime;
     }
