@@ -25,16 +25,13 @@ public class AI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        bool canSeePlayer = CheckForPlayer();
-
-        if (!canSeePlayer)
-            Move();
-        else
+        if (CanSeePlayer())
             Shoot();
+        else
+            Move();
     }
 
-    private bool CheckForPlayer() {
+    private bool CanSeePlayer() {
         return false;
     }
 
