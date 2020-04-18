@@ -5,10 +5,8 @@ public class AI : MonoBehaviour
 {
     [SerializeField]
     private float moveSpeed;
-
     [SerializeField]
     private List<GameObject> points;
-
     [SerializeField]
     private AIScriptableObject data;
 
@@ -29,7 +27,7 @@ public class AI : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (CanSeePlayer())
             Shoot();
@@ -38,11 +36,24 @@ public class AI : MonoBehaviour
     }
 
     private bool CanSeePlayer() {
+        int layerMask = ~(1 << 9);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, data.AttackRange, layerMask);
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(dir.x, 0), data.AttackRange);
-        //Debug.DrawRay(transform.position, new Vector3(dir.x, 0, 0) * data.AttackRange, Color.red);
+        for (int i = 0; i < colliders.Length; i++) {
 
-        if (hit.collider != null && hit.collider.gameObject.tag == "Player") return true;
+            var collider = colliders[i];
+
+            if (collider != null && collider.gameObject.tag == "Player") {
+
+                Vector2 dir = (collider.transform.position - transform.position).normalized;
+
+                Debug.DrawRay(transform.position, dir * data.AttackRange, Color.red);
+
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, data.AttackRange, layerMask);
+
+                if (hit.collider != null && hit.collider.gameObject.tag == "Player") return true;
+            }       
+        }
 
         return false;
     }
@@ -74,6 +85,7 @@ public class AI : MonoBehaviour
         }
 
         transform.position += dir * moveSpeed * Time.deltaTime;
+        //rigidbody.MovePosition(transform.position + dir * moveSpeed * Time.fixedDeltaTime);
     }
 
     private bool SameSign(float x1, float x2) {
