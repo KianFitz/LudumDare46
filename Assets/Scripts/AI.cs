@@ -9,6 +9,9 @@ public class AI : MonoBehaviour
     [SerializeField]
     private List<GameObject> points;
 
+    [SerializeField]
+    private AIScriptableObject data;
+
     private GameObject target;
     private int pointer;
     private Vector3 dir;
@@ -21,13 +24,13 @@ public class AI : MonoBehaviour
         pointer = 0;
 
         transform.position = target.transform.position;
+
+        gameObject.name = data.Name;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.DrawRay(transform.position, new Vector3(dir.x, 0, 0), Color.red);
-
         if (CanSeePlayer())
             Shoot();
         else
@@ -35,11 +38,17 @@ public class AI : MonoBehaviour
     }
 
     private bool CanSeePlayer() {
+
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(dir.x, 0), data.AttackRange);
+        //Debug.DrawRay(transform.position, new Vector3(dir.x, 0, 0) * data.AttackRange, Color.red);
+
+        if (hit.collider != null && hit.collider.gameObject.tag == "Player") return true;
+
         return false;
     }
 
     private void Shoot() {
-
+        
     }
 
     private void Move() {
