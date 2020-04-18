@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour {
 
     public static LevelManager Instance { get; private set; }
 
+    [SerializeField]
+    private string nextLevel;
     [SerializeField]
     private GameObject exit;
     [SerializeField]
@@ -27,6 +30,10 @@ public class LevelManager : MonoBehaviour {
             // Open the exit
             Debug.Log("Collected all the gems");
         }
+    }
+
+    public void LoadNextLevel() {
+        SceneManager.LoadScene(nextLevel);
     }
 
 }
