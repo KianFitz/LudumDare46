@@ -12,6 +12,7 @@ public class AI : MonoBehaviour
     private GameObject target;
     private int pointer;
     private Vector3 dir;
+    private Vector3 oldDir;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +26,8 @@ public class AI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.DrawRay(transform.position, new Vector3(dir.x, 0, 0), Color.red);
+
         if (CanSeePlayer())
             Shoot();
         else
@@ -48,9 +51,23 @@ public class AI : MonoBehaviour
             if (pointer > points.Count - 1) pointer = 0;
 
             target = points[pointer];
+
+            oldDir = dir;
             dir = (target.transform.position - transform.position).normalized;
+
+            if (oldDir == null) oldDir = dir;
+
+            if (!SameSign(oldDir.x, dir.x)) {
+                Vector3 scale = transform.localScale;
+                scale.x *= -1;
+                transform.localScale = scale;
+            }
         }
 
         transform.position += dir * moveSpeed * Time.deltaTime;
+    }
+
+    private bool SameSign(float x1, float x2) {
+        return (x1 <= 0 && x2 <= 0) || (x1 >= 0 && x2 >= 0);
     }
 }
