@@ -15,6 +15,8 @@ public class AI : MonoBehaviour
     private Vector3 dir;
     private Vector3 oldDir;
 
+    private Health health;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +27,11 @@ public class AI : MonoBehaviour
 
         gameObject.name = data.Name;
 
-        GetComponent<Health>().MaxCharge = data.MaxHealth;
+        health = GetComponent<Health>();
+        health.MaxCharge = data.MaxHealth;
+        health.SubscribeToOnDeathCallback(() => { 
+        
+        });
     }
 
     // Update is called once per frame

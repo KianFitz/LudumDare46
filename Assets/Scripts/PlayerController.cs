@@ -7,10 +7,13 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private int moveSpeed = 15;
     [SerializeField] private int jumpForce = 50;
     [SerializeField] private LayerMask ground;
+    [SerializeField] private float maxHealth;
 
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rigidBody;
     private Vector2 moveDirection;
+
+    private Health health;
 
     private bool isJumping;
     [SerializeField] private bool isGrounded;
@@ -19,6 +22,12 @@ public class PlayerController : MonoBehaviour {
     private void Start() {
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        health = GetComponent<Health>();
+
+        health.MaxCharge = maxHealth;
+        health.SubscribeToOnDeathCallback(() => { 
+        
+        });
     }
 
     private void Update() {
