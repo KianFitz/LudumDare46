@@ -10,9 +10,9 @@ public class LevelManager : MonoBehaviour {
     [SerializeField]
     private string nextLevel;
     [SerializeField]
-    private GameObject exit;
-    [SerializeField]
     private List<Gem> gems;
+
+    private Exit exit;
 
     private void Awake() {
         Instance = this;
@@ -24,11 +24,12 @@ public class LevelManager : MonoBehaviour {
 
     public void RemoveGem(Gem gem) {
 
-        Instance.gems.Remove(gem);
+        gems.Remove(gem);
 
         if (Instance.gems.Count == 0) {
             // Open the exit
             Debug.Log("Collected all the gems");
+            exit.IsOpen = true;
         }
     }
 
@@ -36,4 +37,12 @@ public class LevelManager : MonoBehaviour {
         SceneManager.LoadScene(nextLevel);
     }
 
+    public void AddExit(Exit exit) {
+        if (this.exit != null) {
+            Debug.LogError("There are two exits you idiot");
+            return;
+        }
+
+        this.exit = exit;
+    }
 }
