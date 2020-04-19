@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
+    public float MaxCharge { get; set; }
+
     private float charge;
     public float Charge { 
         get { 
@@ -14,6 +16,9 @@ public class Health : MonoBehaviour
             charge = value;
             if (charge <= 0) {
                 onDeath();
+            }
+            else if (charge > MaxCharge) {
+                charge = MaxCharge;
             }
         }
     }

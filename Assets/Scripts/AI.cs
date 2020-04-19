@@ -24,6 +24,8 @@ public class AI : MonoBehaviour
         transform.position = target.transform.position;
 
         gameObject.name = data.Name;
+
+        GetComponent<Health>().MaxCharge = data.MaxHealth;
     }
 
     // Update is called once per frame

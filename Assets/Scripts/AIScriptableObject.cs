@@ -7,4 +7,5 @@ public class AIScriptableObject : ScriptableObject
 {
     public string Name;
     public float AttackRange;
+    public float MaxHealth;
 }
